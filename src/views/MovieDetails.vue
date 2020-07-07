@@ -2,7 +2,6 @@
 import { moviesComputed, moviesMethods } from '@/store/helpers/movies';
 
 export default {
-  components: {},
   methods: {
     ...moviesMethods,
   },
@@ -22,11 +21,12 @@ export default {
 </script>
 
 <template>
-  <div v-if="movieDetails.Poster" id="movie-details">
+  <div v-if="movieDetails.Poster" id="movie-details" class="movie-info">
     <div class="background"></div>
-    <v-row>
-      <v-col md="4" class="d-none d-sm-flex">
+    <v-row class="movie-info__cart">
+      <v-col cols="12" md="3">
         <v-card elevation="10">
+          <!-- Poster -->
           <v-img :src="movieDetails.Poster" />
         </v-card>
       </v-col>
@@ -39,12 +39,12 @@ export default {
             `${movieDetails.Runtime} | ${movieDetails.Genre} | ${movieDetails.Released}`
           }}</span>
           <!-- Rating -->
-          <div class="movie-info__rating">
+          <div class="movie-info__cart-rating">
             <v-rating
               class="mt-2"
-              color="#ffc741"
+              color="#db0000"
               readonly
-              background-color="#ffc741"
+              background-color="#db0000"
               v-model="movieRating"
             />
 
@@ -55,10 +55,58 @@ export default {
         </div>
       </v-col>
     </v-row>
+    <v-row class="movie-info__resume">
+      <v-col cols="12" md="7">
+        <div class="movie-info__resume-plot">
+          <!-- Sinopse -->
+          <h2 class="mt-5">Sinopse</h2>
+          <p>{{ movieDetails.Plot }}</p>
+        </div>
+        <div class="movie-info__resume-cast">
+          <h2 class="mt-5">Elenco</h2>
+          <p>{{ movieDetails.Actors }}</p>
+        </div>
+      </v-col>
+      <v-col cols="12" md="5">
+        <div class="movie-info__resume-details">
+          <!-- Detalhes -->
+          <v-card tile>
+            <v-list>
+              <v-subheader>Detalhes</v-subheader>
+            </v-list>
+            <v-list-item>
+              <strong>Data de lançamento </strong>
+              {{ `: ${movieDetails.Released}` }}
+            </v-list-item>
+            <v-list-item>
+              <strong>Diretor </strong>
+              {{ `: ${movieDetails.Director}` }}
+            </v-list-item>
+            <v-list-item>
+              <strong>País </strong>
+              {{ `: ${movieDetails.Country}` }}
+            </v-list-item>
+            <v-list-item>
+              <strong>Idioma </strong>
+              {{ `: ${movieDetails.Language}` }}
+            </v-list-item>
+            <v-list-item>
+              <strong>Produtora </strong>
+              {{ `: ${movieDetails.Production}` }}
+            </v-list-item>
+            <v-list-item>
+              <strong>Gênero </strong>
+              {{ `: ${movieDetails.Genre}` }}
+            </v-list-item>
+          </v-card>
+        </div>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col>
-        <h2 class="mt-5">Sinopse</h2>
-        <p>{{ movieDetails.Plot }}</p>
+        <v-btn @click.prevent="$router.go(-1)" color="secondary" dark fixed bottom right fab>
+          <v-icon>mdi-keyboard-return</v-icon>
+        </v-btn>
       </v-col>
     </v-row>
   </div>
@@ -69,17 +117,27 @@ export default {
   z-index: 2;
 }
 .movie-info {
-  color: #f5f5f5;
+  &__cart {
+    @media screen and (max-width: 768px) {
+      color: #000000;
+    }
+    color: #f5f5f5;
+    &-rating {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+  }
 }
 .background {
   &:after {
     content: '';
     position: absolute;
     display: block;
-    top: 64px;
+    top: 0;
     left: 0;
     width: 100%;
-    height: 50%;
+    height: 25%;
     background-color: #272727;
   }
 }

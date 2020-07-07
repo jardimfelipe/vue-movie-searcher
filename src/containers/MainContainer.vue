@@ -1,10 +1,14 @@
 <script>
-import TopBar from '../components/TopBar.vue';
+import Footer from '@/components/Footer.vue';
+import { baseComputed } from '@/store/helpers/base';
 
 export default {
   name: 'App',
   components: {
-    TopBar,
+    Footer,
+  },
+  computed: {
+    ...baseComputed,
   },
   data: () => ({
     //
@@ -14,12 +18,22 @@ export default {
 
 <template>
   <div>
-    <top-bar />
+    <v-progress-linear
+      v-if="isLoading"
+      :active="isLoading"
+      :indeterminate="isLoading"
+      absolute
+      top
+    ></v-progress-linear>
     <v-container class="main-container">
-        <slot/>
+      <slot />
     </v-container>
+    <Footer />
   </div>
 </template>
 
 <style lang="scss" scoped>
+.main-container {
+  min-height: calc(100vh - 64px);
+}
 </style>
