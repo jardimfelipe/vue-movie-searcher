@@ -22,14 +22,15 @@ export default {
 </script>
 
 <template>
-  <div id="movie-details">
+  <div v-if="movieDetails.Poster" id="movie-details">
+    <div class="background"></div>
     <v-row>
       <v-col md="4" class="d-none d-sm-flex">
         <v-card elevation="10">
           <v-img :src="movieDetails.Poster" />
         </v-card>
       </v-col>
-      <v-col>
+      <v-col class="background-index">
         <div class="movie-info mt-5">
           <!-- Titulo -->
           <h2>{{ movieDetails.Title }}</h2>
@@ -42,6 +43,7 @@ export default {
             <v-rating
               class="mt-2"
               color="#ffc741"
+              readonly
               background-color="#ffc741"
               v-model="movieRating"
             />
@@ -54,22 +56,31 @@ export default {
       </v-col>
     </v-row>
     <v-row>
-      <b-col>
+      <v-col>
         <h2 class="mt-5">Sinopse</h2>
         <p>{{ movieDetails.Plot }}</p>
-      </b-col>
+      </v-col>
     </v-row>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.background-index {
+  z-index: 2;
+}
 .movie-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  &__rating {
-    display: flex;
-    align-items: center;
+  color: #f5f5f5;
+}
+.background {
+  &:after {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 64px;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-color: #272727;
   }
 }
 </style>
