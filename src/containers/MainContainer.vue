@@ -22,6 +22,7 @@ export default {
       v-if="isLoading"
       :active="isLoading"
       :indeterminate="isLoading"
+      color="secondary"
       absolute
       top
     ></v-progress-linear>

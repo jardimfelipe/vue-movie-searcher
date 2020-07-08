@@ -3,6 +3,7 @@ import { GetList, GetDetails } from '@/services/movies';
 export const state = {
   movieList: [],
   movieDetails: {},
+  searchedMovie: '',
 };
 
 export const mutations = {
@@ -15,12 +16,19 @@ export const mutations = {
   ADD_TO_LIST(state, list) {
     state.movieList.push(...list);
   },
+  SET_SEARCHED_MOVIE(state, newValue) {
+    state.searchedMovie = newValue;
+  },
 };
 
 export const actions = {
   async getMoviesList({ commit }, query) {
     const resp = await GetList(query);
-    if (resp.status === 200) commit('SET_LIST', resp.data.Search);
+    if (!resp.status === 200) return false;
+    if (resp.data.Error) return 'not_found';
+    commit('SET_LIST', resp.data.Search);
+    commit('SET_SEARCHED_MOVIE', query);
+    return 200;
   },
   async getMovieDetails({ commit }, movieId) {
     const resp = await GetDetails({ i: movieId });
@@ -29,7 +37,8 @@ export const actions = {
   },
   async nextMoviePage({ commit }, query) {
     const resp = await GetList(query);
-    if (resp.status === 200 && resp.data.Search) commit('ADD_TO_LIST', resp.data.Search);
+    if (!resp.status === 200) return;
+    commit('ADD_TO_LIST', resp.data.Search);
   },
 };
 

@@ -50,7 +50,7 @@ describe('movie actions', () => {
 });
 
 describe('movie mutations', () => {
-  it('set a list to state', async () => {
+  it('set a list to state', () => {
     const mockedList = ['movie', 'movie'];
     const state = {
       movieList: [],
@@ -59,7 +59,16 @@ describe('movie mutations', () => {
     expect(state.movieList).toBe(mockedList);
   });
 
-  it('Set a movie to state', async () => {
+  it('set a search query to state', () => {
+    const mockedQuery = 'Movie';
+    const state = {
+      searchedMovie: '',
+    };
+    mutations.SET_SEARCHED_MOVIE(state, mockedQuery);
+    expect(state.searchedMovie).toBe(mockedQuery);
+  });
+
+  it('Set a movie to state', () => {
     const mockedMovie = 'Movie';
     const state = {
       movieDetails: '',
@@ -68,7 +77,7 @@ describe('movie mutations', () => {
     expect(state.movieDetails).toBe(mockedMovie);
   });
 
-  it('Add more movies to the list', async () => {
+  it('Add more movies to the list', () => {
     const mockedList = ['more movies', 'more movies'];
     const state = {
       movieList: ['movie', 'movie'],

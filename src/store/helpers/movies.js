@@ -7,5 +7,5 @@ export const moviesMethods = mapActions('movies', [
 ]);
 
 export const moviesComputed = {
-  ...mapState('movies', ['movieList', 'movieDetails']),
+  ...mapState('movies', ['movieList', 'movieDetails', 'searchedMovie']),
 };

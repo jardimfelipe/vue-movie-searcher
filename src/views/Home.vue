@@ -8,12 +8,13 @@ export default {
   },
   methods: {
     ...moviesMethods,
-    submitForm() {
+    async submitForm() {
+      this.searchError = false;
       const validate = this.$refs.form.validate();
       if (!validate) return;
       this.currentPage = 1;
-      this.getMoviesList({ s: this.searchQuery });
-      this.searchedMovie = this.searchQuery;
+      const resp = await this.getMoviesList({ s: this.searchQuery });
+      if (resp === 'not_found') this.searchError = true;
     },
     async goToDetails(moveId) {
       this.$router.push({ name: 'MovieDetails', params: { id: moveId } });
@@ -38,11 +39,11 @@ export default {
   data() {
     return {
       searchQuery: '',
-      searchedMovie: '',
       queryRules: [(v) => !!v || 'Antes de pesquisar, forneça um nome'],
       mouseOverIndex: '',
       maxList: 6,
       currentPage: 1,
+      searchError: false,
     };
   },
   async mounted() {
@@ -69,6 +70,9 @@ export default {
           />
         </v-form>
         <v-btn id="search-button" color="secondary" class="mt-1" @click="submitForm">Buscar</v-btn>
+        <p v-if="searchError" class="error--text mt-5">
+          Não foi encontrado nenhum filme com esse nome
+        </p>
       </v-col>
     </v-row>
     <v-row id="movies-list" class="mt-5">
@@ -95,6 +99,7 @@ export default {
 .home-form {
   position: relative;
   top: 20vh;
+  text-align: center;
 }
 
 @keyframes toTop {
