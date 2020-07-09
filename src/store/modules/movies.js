@@ -27,7 +27,7 @@ export const actions = {
     if (!resp.status === 200) return false;
     if (resp.data.Error) return 'not_found';
     commit('SET_LIST', resp.data.Search);
-    commit('SET_SEARCHED_MOVIE', query);
+    commit('SET_SEARCHED_MOVIE', query.s);
     return 200;
   },
   async getMovieDetails({ commit }, movieId) {
@@ -37,8 +37,12 @@ export const actions = {
   },
   async nextMoviePage({ commit }, query) {
     const resp = await GetList(query);
-    if (!resp.status === 200) return;
+    if (!resp.status === 200) return false;
+    if (resp.data.Error) {
+      return resp.data.Error === 'Movie not found!' ? 'no_search' : 'request_error';
+    }
     commit('ADD_TO_LIST', resp.data.Search);
+    return 200;
   },
 };
 

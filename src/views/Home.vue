@@ -14,17 +14,18 @@ export default {
       if (!validate) return;
       this.currentPage = 1;
       const resp = await this.getMoviesList({ s: this.searchQuery });
-      if (resp === 'not_found') this.searchError = true;
+      if (resp !== 200) this.searchError = true;
     },
     async goToDetails(moveId) {
       this.$router.push({ name: 'MovieDetails', params: { id: moveId } });
     },
-    onScroll() {
+    async onScroll() {
       const isOnBottom = document.documentElement.scrollTop + window.innerHeight
         === document.documentElement.offsetHeight;
-      if (isOnBottom && this.searchedMovie) {
+      if (isOnBottom && this.searchedMovie && !this.alertError) {
         this.currentPage += 1;
-        this.nextMoviePage({ s: this.searchedMovie, page: this.currentPage });
+        const resp = await this.nextMoviePage({ s: this.searchedMovie, page: this.currentPage });
+        if (resp !== 200) this.alertError = resp;
       }
     },
   },
@@ -44,6 +45,7 @@ export default {
       maxList: 6,
       currentPage: 1,
       searchError: false,
+      alertError: false,
     };
   },
   async mounted() {
@@ -57,6 +59,15 @@ export default {
 
 <template>
   <div id="home">
+    <v-alert
+      class="error-alert"
+      transition="fade-transition"
+      dismissible
+      :value="alertError === 'request_error'"
+      type="error"
+    >
+      Alguma coisa deu errado. Tente novamente mais tarde.
+    </v-alert>
     <v-row class="justify-center align-center">
       <v-col class="home-form" :class="{ 'to-top': movieList.length }" sm="12" md="6" xl="4">
         <v-form id="search-form" ref="form" color="secondary" @submit="submitForm">
@@ -100,6 +111,14 @@ export default {
   position: relative;
   top: 20vh;
   text-align: center;
+}
+
+.error-alert {
+  position: fixed;
+  top: 10px;
+  z-index: 100;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 @keyframes toTop {
