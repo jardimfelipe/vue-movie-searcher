@@ -1,34 +1,28 @@
 # b2w-test
+A application to search movies and get his details, using [OMDb API](http://www.omdbapi.com/).
+This project was developed using [VueJS](https://vuejs.org/) (with Vue Router, Vuex), [Vuetify](https://vuetifyjs.com/en/) as UI framework, [Jest](https://jestjs.io/) to run unit tests and [Cypress](https://www.cypress.io/) to run e2e tests.
 
 ## Project setup
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### Run it
 ```
 yarn serve
 ```
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Run your unit tests
+### Run unit tests with Jest
 ```
 yarn test:unit
 ```
 
-### Run your end-to-end tests
+### Run end-to-end tests with Cypress
 ```
 yarn test:e2e
 ```
 
-### Lints and fixes files
+### Run eslint 
 ```
 yarn lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
