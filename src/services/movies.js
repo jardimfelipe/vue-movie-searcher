@@ -1,7 +1,7 @@
 import qs from 'qs';
 import apiInstance from './api-instance';
 
-const baseUrl = 'http://omdbapi.com';
+const baseUrl = 'https://omdbapi.com';
 const apikey = '22dc7c71';
 
 export const GetList = async (parameters) => {
