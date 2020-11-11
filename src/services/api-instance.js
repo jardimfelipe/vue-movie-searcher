@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Vue from '../main';
 
-const domain = 'http://omdbapi.com';
+const domain = 'https://omdbapi.com';
 const axiosInstance = axios.create({
   baseURL: domain,
   headers: {
